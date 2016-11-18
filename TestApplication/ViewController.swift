@@ -9,18 +9,15 @@
 import UIKit
 import KeyboardAdjuster
 
-extension UIViewController {
-    
-}
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-class ViewController: UIViewController, KeyboardAdjuster, UITableViewDelegate, UITableViewDataSource {
     let CellIdentifier = "CellIdentifier"
 
-    var keyboardAdjusterConstraint: NSLayoutConstraint?
-    var keyboardAdjusterAnimated: Bool? = false
     var tableView: UITableView!
     var textField: UITextField!
 
+    private let keyboardAdjuster = KeyboardAdjuster()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,20 +39,21 @@ class ViewController: UIViewController, KeyboardAdjuster, UITableViewDelegate, U
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
-        keyboardAdjusterConstraint = view.bottomAnchor.constraint(equalTo: tableView.bottomAnchor)
-        keyboardAdjusterConstraint?.isActive = true
+        keyboardAdjuster.view = self.view
+        keyboardAdjuster.constraint = view.bottomAnchor.constraint(equalTo: tableView.bottomAnchor)
+        keyboardAdjuster.animated = false // default: true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        activateKeyboardAdjuster()
+        keyboardAdjuster.activate()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
-        deactivateKeyboardAdjuster()
+        keyboardAdjuster.deactivate()
     }
     
     // MARK: - UITableViewDataSource
