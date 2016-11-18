@@ -44,25 +44,12 @@ public class KeyboardAdjuster {
      - date: February 18, 2016
      */
     public func activate() {
-        activate(nil, hideBlock: nil)
-    }
-    
-    /**
-     Enable keyboard adjustment for the current view controller, providing optional closures to call when the keyboard appears and when it disappears.
-     
-     - parameter showBlock: (optional) a closure that's called when the keyboard appears
-     - parameter hideBlock: (optional) a closure that's called when the keyboard disappears
-     - author: Daniel Loewenherz
-     - copyright: ©2016 Lionheart Software LLC
-     - date: February 18, 2016
-     */
-    public func activate(_ showBlock: AnyObject?, hideBlock: AnyObject?) {
         // Activate the bottom constraint.
         constraint?.isActive = true
         
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: hideBlock)
-        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: showBlock)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         
         guard let viewA = constraint?.firstItem as? UIView,
             let viewB = constraint?.secondItem as? UIView else {
@@ -120,10 +107,6 @@ public class KeyboardAdjuster {
             let curve = UIViewAnimationCurve(rawValue: _curve),
             let duration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double else {
                 return
-        }
-        
-        if let block = sender.object as? (() -> Void) {
-            block()
         }
         
         var curveAnimationOption: UIViewAnimationOptions
