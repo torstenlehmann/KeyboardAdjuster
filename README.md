@@ -43,7 +43,7 @@ pod "KeyboardAdjuster", :git => 'https://github.com/torstenlehmann/KeyboardAdjus
 2. Figure out which view you'd like to pin to the top of the keyboard. A `UIScrollView`, `UITableView`, or `UITextView` are likely candidates. Then, wherever you're setting up your view constraints, set `keyboardAdjuster.constraint` to the constraint pinning the bottom of this view to the bottom of the screen:
 
    ```swift
-   class MyViewController: UIViewController, KeyboardAdjuster {
+   class MyViewController: UIViewController {
        func viewDidLoad() {
            super.viewDidLoad()
 
@@ -59,7 +59,7 @@ pod "KeyboardAdjuster", :git => 'https://github.com/torstenlehmann/KeyboardAdjus
 3. All you need to do now is activate and deactivate the automatic adjustments in your `viewWillAppear(animated:)` and `viewDidDisappear(animated:)` methods.
 
    ```swift
-   class MyViewController: UIViewController, KeyboardAdjuster {
+   class MyViewController: UIViewController {
        override func viewWillAppear(animated: Bool) {
            super.viewWillAppear(animated)
            keyboardAdjuster.activate()
